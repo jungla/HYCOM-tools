@@ -1,0 +1,22 @@
+FC = gfortran
+#FFLAGS = -g -fbounds-check -ffpe-trap=invalid,zero,overflow -fconvert=big-endian
+FFLAGS = -O3 -funroll-loops -fconvert=big-endian
+
+%.o:%.f90
+	$(FC) -c ${FFLAGS} $<
+
+
+mix =  modiohf.f90 ssh.f90
+
+
+mixlayer:$(mix)
+	$(FC) $(FFLAGS) $(mix) -o ssh
+
+clean:
+	rm *.mod *.o
+
+# DO NOT DELETE THIS LINE - used by make depend
+
+ssh.o: modiohf.o
+
+

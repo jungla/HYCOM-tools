@@ -1,0 +1,25 @@
+# Linux Intel compiler
+#FC = ifort -convert big_endian
+#FFLAGS = -g -check bounds -debug semantic_stepping -debug variable_locations -r8 
+#FFLAGS = -O3 -ipo -no-prec-div
+
+FC = gfortran
+FFLAGS = -Wno-unused-variable -g -C -fdefault-real-8 -fconvert=big-endian
+#FFLAGS = -O3 -funroll-loops -inline -fdefault-real-8 -fconvert=big-endian
+
+%.o:%.f90
+	$(FC) -c ${FFLAGS} $<
+
+omega = modiof.f90 modrelax.f90 modfunctions.f90 modfd.f90 modqg.f90 omega.f90
+
+omega:$(omega)
+	$(FC) $(FFLAGS) $(omega) -o omega
+
+clean:
+	rm *.mod *.o
+
+# DO NOT DELETE THIS LINE - used by make depend
+
+
+modqg.o: modfd.o
+omega.o: modiof.o modrelax.o modfunctions.o modfd.o modqg.o 

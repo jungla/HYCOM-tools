@@ -1,0 +1,20 @@
+FC = mpif90
+FFLAGS = -O3 -mcmodel=medium -funroll-loops -g -C -fdefault-real-8 -fconvert=big-endian -I/share/apps/openmpi/1.4.1/gcc/4.6.2/include/
+
+%.o:%.f90
+	$(FC) -c ${FFLAGS} $<
+
+
+fsle = modiof.f90 modfsle.f90 advecFSLE_p.f90
+
+all: advecFSLE
+
+advecFSLE:$(fsle)
+	$(FC) $(FFLAGS) $(fsle) -o advecFSLE_p
+
+clean:
+	rm *.mod *.o
+
+# DO NOT DELETE THIS LINE - used by make depend
+
+advecFSLE.o: modiof.o modfsle.o

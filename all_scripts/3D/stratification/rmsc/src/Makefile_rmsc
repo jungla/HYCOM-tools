@@ -1,0 +1,19 @@
+FC = gfortran
+#FFLAGS = -g -fbounds-check -ffpe-trap=invalid,zero,overflow -fconvert=big-endian
+FFLAGS = -O3 -funroll-loops -fconvert=big-endian
+
+%.o:%.f90
+	$(FC) -c ${FFLAGS} $<
+
+
+vort = modiohf.f90 modiobf.f90 rmsc.f90
+
+mixing:$(vort)
+	$(FC) $(FFLAGS) $(vort) -o rmsc
+
+
+clean:
+	rm *.mod *.o
+
+# DO NOT DELETE THIS LINE - used by make depend
+rmsc.o: modiohf.o modiobf.o

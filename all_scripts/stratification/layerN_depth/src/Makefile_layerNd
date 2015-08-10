@@ -1,0 +1,20 @@
+FC = gfortran
+FFLAGS =  -O3 -funroll-loops -g -C -fbounds-check -fdefault-real-8 -fconvert=big-endian
+
+%.o:%.f90
+	$(FC) -c ${FFLAGS} $<
+
+
+vort = modiof.f90 layerNd.f90
+
+mixing:$(vort)
+	$(FC) $(FFLAGS) $(vort) -o layerNd
+
+
+clean:
+	rm *.mod *.o
+
+# DO NOT DELETE THIS LINE - used by make depend
+layerNd.o: modiof.o
+
+

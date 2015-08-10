@@ -1,0 +1,20 @@
+FC = gfortran
+FFLAGS = -g -C -fbounds-check -fdefault-real-8 -fconvert=big-endian
+
+%.o:%.f90
+	$(FC) -c ${FFLAGS} $<
+
+
+vort = modts2sigma.f90 modiohf.f90 density_z.f90
+
+mixing:$(vort)
+	$(FC) $(FFLAGS) $(vort) -o density_z
+
+
+clean:
+	rm *.mod *.o
+
+# DO NOT DELETE THIS LINE - used by make depend
+density_z.o: modts2sigma.o modiohf.o
+
+
